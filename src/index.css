@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+button.MuiTab-root{text-align: left;
+              justify-content: flex-start;
+              display: flex;
+              width: 200px;
+              flex-direction: row;
+               border-top-left-radius: 6px;
+               border-top-right-radius: 6px;
+               border-color: grey;
+              border-width: 1px;
+              border-style: solid ;
+             }
