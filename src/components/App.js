@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoadingBar } from "react-redux-loading-bar";
 //import Nav from "./Nav";
 import Login from "./Login";
-
+import authedUser from "../actions/authedUser";
 import NewPoll from "./NewPoll";
 import Dashboard from "./Dashboard";
 import Question from "./Question";

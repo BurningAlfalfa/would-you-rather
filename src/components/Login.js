@@ -16,14 +16,11 @@ class Login extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    const { onLoading, setAuthedUser } = this.props;
+    const { setAuthedUser } = this.props;
     const authedUser = this.state.value;
-
-    new Promise((res, rej) => {
-      onLoading();
-      setTimeout(() => res(), 500);
-    }).then(() => setAuthedUser(authedUser));
+    setAuthedUser(authedUser);
   };
+
   generateDropdownData = () => {
     const { users } = this.props;
 
