@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { setAuthedUser } from "../actions/authedUser";
-
 //import { tyler, john, sara } from "..assests/images";
 
 class Login extends Component {
@@ -11,65 +10,89 @@ class Login extends Component {
   handleLoading = () => {
     this.setState({ loading: true });
   };
-  onChange = (e, { value }) => {
-    this.setState({ value });
+  onChange = (event) => {
+    this.setState({ value: event.target.value });
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    const { setAuthedUser } = this.props;
+    const { /*onLoading,*/ setAuthedUser } = this.props;
     const authedUser = this.state.value;
     setAuthedUser(authedUser);
   };
 
-  generateDropdownData = () => {
+  /*generateDropdownData = () => {
     const { users } = this.props;
-
-    return users.map((user) => ({
-      key: user.id,
-      text: user.name,
-      value: user.id,
-      image: { avatar: true, src: user.avatarURL },
-    }));
-  };
-  render() {
-    const { value } = this.state;
-    const disabled = value === "" ? true : false;
+    console.log("hi");
     return (
-      <div>
+      users &&
+      users.map((user) => ({
+        key: user.id,
+        text: user.name,
+        value: user.id,
+        image: { avatar: true, src: user.avatarURL },
+      }))
+    );
+  };*/
+
+  render() {
+    //const { value } = this.props;
+    //  const disabled = value === "" ? true : false;
+    //const { users } = this.props;
+    return (
+      <div className="log-in">
         <Fragment>
+          <div
+            //image={<BrandImage />}
+            form={<ConnectedLogin onLoading={this.handleLoading} />}
+            //loading={this.state.loading ? true : false}
+          />
           <div>
             <header />
-            <div
+            {/*  <div
               form={<ConnectedLogin onLoading={this.handleLoading} />}
               loading={this.state.loading}
-            />
+            /> */}
           </div>
         </Fragment>
-        <form onSubmit={this.handleSubmit}>
-          <header as="h2" color="green">
-            Sign In
-          </header>
+        <form className="ui-form" onSubmit={this.handleSubmit}>
+          <header className="header">Sign In</header>
           <select
+            className="dropdown"
             placeholder="Select a Friend"
-            fluid
-            selection
-            scrolling
-            options={this.generateDropdownData()}
-            value={value}
+            fluid="true"
+            selection="true"
+            scrolling="true"
+            value={this.state.value}
             onChange={this.onChange}
             required
-          />
-          <button content="Login" positive disabled={disabled} fluid />
+          >
+            {this.props.length > 0 &&
+              this.props.users.map((user) => {
+                return (
+                  <option key={user} value={user}>
+                    {user}
+                  </option>
+                );
+              })}
+          </select>
+          <button
+            className="submit-button"
+            positive="true"
+            //disabled={disabled}
+            fluid="true"
+          >
+            Login
+          </button>
         </form>
       </div>
     );
   }
 }
-const ConnectedLogin = connect(mapStateToProps, { setAuthedUser })(Login);
 function mapStateToProps({ users }) {
   return {
     users: Object.values(users),
   };
 }
+const ConnectedLogin = connect(mapStateToProps, { setAuthedUser })(Login);
 
-export default Login;
+export default ConnectedLogin;

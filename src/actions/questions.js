@@ -1,5 +1,5 @@
 import { saveQuestion } from "../utils/api";
-import { addQuestionToUser } from "../actions/users";
+//import { addQuestionToUser } from "../actions/users";
 
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const ADD_ANSWER_TO_QUESTION = "ADD_ANSWER_TO_QUESTION";
@@ -11,7 +11,7 @@ export function receiveQuestions(questions) {
     questions,
   };
 }
-
+/*
 export function addAnswerToQuestion(authUser, qid, answer) {
   return {
     type: ADD_ANSWER_TO_QUESTION,
@@ -38,3 +38,4 @@ export function handleSaveQuestion(optionOneText, optionTwoText, author) {
     );
   };
 }
+*/

@@ -36,7 +36,8 @@ class App extends Component {
 }
 function mapStateToProps({ authedUser }) {
   return {
-    loading: authedUser === null,
+    //loading: authedUser === null,
+    authedUser: null,
   };
 }
 export default connect(mapStateToProps)(App);

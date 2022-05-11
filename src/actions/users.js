@@ -11,7 +11,7 @@ export function receiveUsers(users) {
     users,
   };
 }
-
+/*
 function addAnswerToUser(authUser, qid, answer) {
   return {
     type: ADD_ANSWER_TO_USER,
@@ -39,3 +39,4 @@ export function addQuestionToUser({ id, author }) {
     author,
   };
 }
+*/
