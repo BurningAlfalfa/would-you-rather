@@ -8,7 +8,9 @@ import { ActionTypes } from "@mui/base";
 export function handleInitalData() {
   return (dispatch) => {
     // dispatch(showLoading);
+  console.log("adfas")
     return getInitialData().then(({ users, questions }) => {
+      console.log({users})
       dispatch(receiveUsers(users));
       console.log("test", users);
 

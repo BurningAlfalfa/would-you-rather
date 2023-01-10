@@ -12,7 +12,10 @@ import Question from "./Question";
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(handleInitalData());
+    console.log("aslf")
+    console.log(this.props.dispatch)
+    handleInitalData()(this.props.dispatch) 
+    // this.props.dispatch(handleInitalData());
   }
   //      <div>{this.props.loading === true ? null : <Dashboard />}</div>
 

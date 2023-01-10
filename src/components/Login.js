@@ -19,7 +19,6 @@ class Login extends Component {
     const authedUser = this.state.value;
     setAuthedUser(authedUser);
   };
-
   /*generateDropdownData = () => {
     const { users } = this.props;
     console.log("hi");
@@ -35,6 +34,8 @@ class Login extends Component {
   };*/
 
   render() {
+                                                console.log(this.props)
+
     //const { value } = this.props;
     //  const disabled = value === "" ? true : false;
     //const { users } = this.props;
@@ -56,6 +57,8 @@ class Login extends Component {
         </Fragment>
         <form className="ui-form" onSubmit={this.handleSubmit}>
           <header className="header">Sign In</header>
+                                                      console.log("stuff")
+
           <select
             className="dropdown"
             placeholder="Select a Friend"
@@ -66,12 +69,16 @@ class Login extends Component {
             onChange={this.onChange}
             required
           >
+                                            console.log("stuff")
+
             {this.props.length > 0 &&
+
               this.props.users.map((user) => {
                 return (
-                  <option key={user} value={user}>
+                  <option  key={user} value={user}>
                     {user}
                   </option>
+                  
                 );
               })}
           </select>
