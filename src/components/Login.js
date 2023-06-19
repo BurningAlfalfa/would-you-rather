@@ -5,13 +5,15 @@ import { setAuthedUser } from "../actions/authedUser";
 
 class Login extends Component {
   state = {
+    value:"",
     loading: false,
   };
   handleLoading = () => {
     this.setState({ loading: true });
   };
   onChange = (event) => {
-    this.setState({ value: event.target.value });
+    const id =event.target.value;
+    this.setState({ value: id });
   };
   handleSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +36,6 @@ class Login extends Component {
   };*/
 
   render() {
-                                                console.log(this.props)
 
     //const { value } = this.props;
     //  const disabled = value === "" ? true : false;
@@ -57,29 +58,32 @@ class Login extends Component {
         </Fragment>
         <form className="ui-form" onSubmit={this.handleSubmit}>
           <header className="header">Sign In</header>
-                                                      console.log("stuff")
+            
 
           <select
             className="dropdown"
-            placeholder="Select a Friend"
             fluid="true"
             selection="true"
             scrolling="true"
             value={this.state.value}
             onChange={this.onChange}
-            required
-          >
-                                            console.log("stuff")
-
-            {this.props.length > 0 &&
+            required>
+          <option key={""} value={""} disabled>Select User</option>
+          
+            
+            
+            {this.props.users.length > 0 &&
+             
 
               this.props.users.map((user) => {
+                if (user) {
                 return (
-                  <option  key={user} value={user}>
-                    {user}
+                  <option key ={user.id} value={user.id}>
+                    {user.name}
                   </option>
                   
                 );
+                }
               })}
           </select>
           <button

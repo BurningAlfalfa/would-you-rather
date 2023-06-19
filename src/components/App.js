@@ -12,27 +12,27 @@ import Question from "./Question";
 
 class App extends Component {
   componentDidMount() {
-    console.log("aslf")
-    console.log(this.props.dispatch)
     handleInitalData()(this.props.dispatch) 
     // this.props.dispatch(handleInitalData());
   }
   //      <div>{this.props.loading === true ? null : <Dashboard />}</div>
 
   render() {
-    const { authedUser } = this.props;
-    console.log(authedUser);
+    // const { authedUser } = this.props;
+    let authedUser = this.props.authedUser;
 
     return (
       <BrowserRouter>
         <Routes>
           {authedUser === null ? (
+            // <Route path="/" element={<Login users={this.props.users} />}></Route>
             <Route path="/" element={<Login />}></Route>
           ) : (
             <Route path="/" element={<Dashboard />}></Route>
           )}
+          <Route path="/new-poll" element={<NewPoll />} />
+          <Route path="/leaderboard" element={<leaderboard/>} />
         </Routes>
-        {console.log(authedUser)}
       </BrowserRouter>
     );
   }
@@ -40,7 +40,9 @@ class App extends Component {
 function mapStateToProps({ authedUser }) {
   return {
     //loading: authedUser === null,
-    authedUser: null,
+    "authedUser":  authedUser,
+    "users": ['user1', ]
+    ,
   };
 }
 export default connect(mapStateToProps)(App);

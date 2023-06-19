@@ -29,28 +29,18 @@ export const styles = {
   },
 };
 export function formatQuestion(question, author, authedUser) {
-  const { id, votes, text, timestamp, option1, option2 } = question;
+  const { id, timestamp, optionOne, optionTwo } = question;
   const { name, avatarURL } = author;
 
   return {
-    name,
     id,
     timestamp,
-    text,
+    name,
     avatar: avatarURL,
-    votes,
-    option1,
-    option2,
-
-    //likes: likes.length,
-    // replies: replies.length,
-    // hasLiked: likes.includes(authedUser),
-    /* parent: !parentTweet
-      ? null
-      : {
-          author: parentTweet.author,
-          id: parentTweet.id,
-        },
-        */
+    option1: optionOne.text,
+    option1Votes: optionOne.votes,
+    option2: optionTwo.text,
+    option2Votes: optionTwo.votes,
   };
 }
+
