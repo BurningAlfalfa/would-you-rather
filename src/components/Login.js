@@ -5,14 +5,14 @@ import { setAuthedUser } from "../actions/authedUser";
 
 class Login extends Component {
   state = {
-    value:"",
+    value: "",
     loading: false,
   };
   handleLoading = () => {
     this.setState({ loading: true });
   };
   onChange = (event) => {
-    const id =event.target.value;
+    const id = event.target.value;
     this.setState({ value: id });
   };
   handleSubmit = (e) => {
@@ -36,7 +36,6 @@ class Login extends Component {
   };*/
 
   render() {
-
     //const { value } = this.props;
     //  const disabled = value === "" ? true : false;
     //const { users } = this.props;
@@ -58,7 +57,6 @@ class Login extends Component {
         </Fragment>
         <form className="ui-form" onSubmit={this.handleSubmit}>
           <header className="header">Sign In</header>
-            
 
           <select
             className="dropdown"
@@ -67,22 +65,20 @@ class Login extends Component {
             scrolling="true"
             value={this.state.value}
             onChange={this.onChange}
-            required>
-          <option key={""} value={""} disabled>Select User</option>
-          
-            
-            
-            {this.props.users.length > 0 &&
-             
+            required
+          >
+            <option key={""} value={""} disabled>
+              Select User
+            </option>
 
+            {this.props.users.length > 0 &&
               this.props.users.map((user) => {
                 if (user) {
-                return (
-                  <option key ={user.id} value={user.id}>
-                    {user.name}
-                  </option>
-                  
-                );
+                  return (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  );
                 }
               })}
           </select>
@@ -104,6 +100,11 @@ function mapStateToProps({ users }) {
     users: Object.values(users),
   };
 }
-const ConnectedLogin = connect(mapStateToProps, { setAuthedUser })(Login);
+const mapDispatchToProps = (dispatch) => ({
+  setAuthedUser: (id) => dispatch({ type: "SET_AUTHED_USER", id }),
+});
+
+const ConnectedLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
+//const ConnectedLogin = connect(mapStateToProps, { setAuthedUser })(Login);
 
 export default ConnectedLogin;

@@ -11,8 +11,9 @@ import Dashboard from "./Dashboard";
 import Question from "./Question";
 
 class App extends Component {
-  componentDidMount() {
-    handleInitalData()(this.props.dispatch) 
+  async componentDidMount() {
+    await handleInitalData()(this.props.dispatch);
+    this.props.dispatch({ type: "SET_AUTHED_USER", id: "joeylene" });
     // this.props.dispatch(handleInitalData());
   }
   //      <div>{this.props.loading === true ? null : <Dashboard />}</div>
@@ -24,25 +25,24 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Routes>
-          {authedUser === null ? (
+          {!authedUser ? (
             // <Route path="/" element={<Login users={this.props.users} />}></Route>
             <Route path="/" element={<Login />}></Route>
           ) : (
             <Route path="/" element={<Dashboard />}></Route>
           )}
           <Route path="/new-poll" element={<NewPoll />} />
-          <Route path="/leaderboard" element={<leaderboard/>} />
+          <Route path="/leaderboard" element={<leaderboard />} />
         </Routes>
       </BrowserRouter>
     );
   }
 }
-function mapStateToProps({ authedUser }) {
+function mapStateToProps({ users }) {
+  //console.log({ users });
   return {
     //loading: authedUser === null,
-    "authedUser":  authedUser,
-    "users": ['user1', ]
-    ,
+    authedUser: users.authedUser,
   };
 }
 export default connect(mapStateToProps)(App);
