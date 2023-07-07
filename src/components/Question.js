@@ -53,12 +53,26 @@ class Question extends Component {
             as="h5"
             textAlign="left"
             style={{
-              borderTop: `2px solid ${tabColor.hex}`,
-              marginBottom: "1em",
+              borderTop: `3px solid ${tabColor.hex}`,
+              marginTop: 0,
+              padding: 0,
             }}
-          >
-            {questions[id].author} asks:
-          </Header>
+          ></Header>
+          <Segment style={{ padding: 0, margin: 0 }}>
+            <Card
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "left",
+                backgroundColor: "lightGrey",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              <div>{questions[id].author} asks:</div>
+            </Card>
+          </Segment>
+
           <div
             style={{
               display: "flex",
@@ -82,7 +96,7 @@ class Question extends Component {
                 alignItems: "left",
               }}
             >
-              <Header as="h5" textAlign="center">
+              <Header as="h5" textAlign="center" style={{ color: "black" }}>
                 Would you rather
               </Header>
               <div
@@ -99,7 +113,7 @@ class Question extends Component {
                 </p>
                 <Button
                   color={tabColor.name}
-                  size="tiny"
+                  size="big"
                   fluid
                   onClick={this.handleClick}
                 >
