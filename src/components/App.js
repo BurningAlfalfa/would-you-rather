@@ -6,6 +6,7 @@ import { LoadingBar } from "react-redux-loading-bar";
 //import Nav from "./Nav";
 import Login from "./Login";
 import authedUser from "../actions/authedUser";
+import PollResult from "./PollResult";
 import NewPoll from "./NewPoll";
 import Dashboard from "./Dashboard";
 import Question from "./Question";
@@ -33,6 +34,8 @@ class App extends Component {
           )}
           <Route path="/new-poll" element={<NewPoll />} />
           <Route path="/leaderboard" element={<leaderboard />} />
+          <Route exact path="/" component={Question} />
+          <Route path="/question/:id" component={PollResult} />
         </Routes>
       </BrowserRouter>
     );

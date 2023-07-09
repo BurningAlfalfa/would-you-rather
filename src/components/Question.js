@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { formatQuestion } from "../utils/helpers";
 import { Header, Segment, Button, Grid, Image } from "semantic-ui-react";
@@ -24,8 +25,8 @@ const color = {
   },
 };
 class Question extends Component {
-  toQuestion = (e, id) => {
-    e.preventDefault();
+  handleQuestionClick = (questionId) => {
+    this.props.history.push(`/question/${questionId}`);
   };
 
   render() {
@@ -36,6 +37,7 @@ class Question extends Component {
     if (!question === null) {
       return <p>This question doesnt exist </p>;
     }
+
     const tabColor = unanswered === true ? color.green : color.blue;
     // const { author } = questions;
     const { avatar, optionOne, timestamp, option2, text } = user;
@@ -46,6 +48,7 @@ class Question extends Component {
           display: "flex",
           flexDirection: "column",
           alignItems: "left",
+          width: 700,
         }}
       >
         <>
@@ -55,24 +58,29 @@ class Question extends Component {
             style={{
               borderTop: `3px solid ${tabColor.hex}`,
               marginTop: 0,
-              padding: 0,
+              margin: 0,
             }}
           ></Header>
-          <Segment style={{ padding: 0, margin: 0 }}>
-            <Card
+          <Card
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              backgroundColor: "lightGrey",
+              height: 50,
+            }}
+          >
+            <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "left",
-                backgroundColor: "lightGrey",
-                margin: 0,
-                padding: 0,
+                flexDirection: "row",
+                alignItems: "center",
+                fontSize: 20,
               }}
             >
-              <div>{questions[id].author} asks:</div>
-            </Card>
-          </Segment>
-
+              {questions[id].author} asks:
+            </div>
+          </Card>
           <div
             style={{
               display: "flex",
@@ -112,10 +120,13 @@ class Question extends Component {
                   or...
                 </p>
                 <Button
-                  color={tabColor.name}
-                  size="big"
-                  fluid
-                  onClick={this.handleClick}
+                  style={{
+                    height: 40,
+                    width: 300,
+                    margin: 10,
+                    backgroundColor: `solid ${tabColor.hex}`,
+                  }}
+                  onClick={() => this.handleQuestionClick(question.id)}
                 >
                   {unanswered === true ? "Answer Poll" : "Results"}
                 </Button>
@@ -136,7 +147,7 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
   const unanswered = !Object.keys(user.answers).includes(id);
   const answered = user.questions.includes(id);
   //console.log(authedUser);
-  console.log(questions);
+  console.log(questions[id].id);
   return {
     questions,
     id,
@@ -145,7 +156,7 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
     user,
   };
 }
-export default connect(mapStateToProps)(Question);
+export default withRouter(connect(mapStateToProps)(Question));
 /*<SegmentGroup>
       <Header className="header"  style={{boarderTop: "2px solid ${tabColor.hex}"}}
       

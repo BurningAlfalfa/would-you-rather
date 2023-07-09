@@ -26,7 +26,14 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
 
   return (
     <div>
-      <nav className="navbar">
+      <nav
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        className="navbar"
+      >
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -45,7 +52,12 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
         </div>
       </nav>
       <h3 className="center">Your Timeline</h3>
-      <Box sx={{ width: "75%", borderColor: "grey" }}>
+      <Box
+        style={{}}
+        sx={{
+          borderColor: "grey",
+        }}
+      >
         <Box
           style={{
             display: "flex",
@@ -63,8 +75,8 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
           <div
             style={{
               gap: 30,
-              maxWidth: 800,
               display: "flex",
+              alignItems: "center",
               flexDirection: "column",
             }}
           >
@@ -73,7 +85,14 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
           </div>
         )}
         {selectedTab === 1 && (
-          <div>
+          <div
+            style={{
+              gap: 30,
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
             <h4>Answered Questions</h4>
             {renderQuestions(answeredQuestions)}
           </div>
