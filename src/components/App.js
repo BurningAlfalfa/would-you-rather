@@ -34,8 +34,7 @@ class App extends Component {
           )}
           <Route path="/new-poll" element={<NewPoll />} />
           <Route path="/leaderboard" element={<leaderboard />} />
-          <Route exact path="/" component={Question} />
-          <Route path="/question/:id" component={PollResult} />
+          <Route path="/question/:question_id" element={<PollResult/>} />
         </Routes>
       </BrowserRouter>
     );

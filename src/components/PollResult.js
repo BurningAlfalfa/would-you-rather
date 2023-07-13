@@ -1,30 +1,27 @@
-import React, { Component } from "react";
+import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-class PollResult extends Component {
-  render() {
-    const { question } = this.props;
+const PollResult = (props) => {
+  const { question_id } = useParams();
+  const question = props.questions[question_id];
 
-    if (!question) {
-      return <p>This question doesn't exist </p>;
-    }
-
-    return (
-      <div>
-        <h2>{question.optionOne.text}</h2>
-        <h3>or</h3>
-        <h2>{question.optionTwo.text}</h2>
-        {/* Add your layout and design here */}
-      </div>
-    );
+  if (!question) {
+    return <p>This question doesn't exist </p>;
   }
-}
 
-function mapStateToProps({ questions }, props) {
-  const { id } = props.match.params;
+  return (
+    <div>
+      <h2>{question.optionOne.text}</h2>
+      <h3>or</h3>
+      <h2>{question.optionTwo.text}</h2>
+      {/* Add your layout and design here */}
+    </div>
+  );
+};
 
+function mapStateToProps({ questions }) {
   return {
-    question: questions[id],
+    questions
   };
 }
 
