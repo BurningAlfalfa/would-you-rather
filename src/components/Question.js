@@ -24,134 +24,132 @@ const color = {
     hex: "#767676",
   },
 };
-function Question({ question, unanswered, questions, id, answers, user, users }) {
+function Question({ question, unanswered, questions, id, answers, user, users, author }) {
   const navigate = useNavigate();
 
   const handleQuestionClick = (questionId) => {
     navigate(`/question/${questionId}`);
   };
 
-if (question === null) {
-  return <p>This question doesnt exist </p>;
-}
+  if (question === null) {
+    return <p>This question doesnt exist </p>;
+  }
 
-const tabColor = unanswered === true ? color.green : color.blue;
-// const { author } = questions;
-const { avatar, optionOne, timestamp, option2, text } = user;
-    //console.log(question);
+  const tabColor = unanswered === true ? color.green : color.blue;
+  const { avatar, optionOne, timestamp, option2, text } = user;
+  const authorId = questions[id].author;
+  const avatarUser = users[authorId];
+  const avatarURL = avatarUser.avatarURL;
 
-   
-    return (
-      <Card
-        elevation={15}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "left",
-          width: 700,
-        }}
-      >
-        <>
-          <Header
-            as="h5"
-            textAlign="left"
-            style={{
-              borderTop: `3px solid ${tabColor.hex}`,
-              marginTop: 0,
-              margin: 0,
-            }}
-          ></Header>
-          <Card
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              backgroundColor: "lightGrey",
-              height: 50,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                fontSize: 20,
-              }}
-            >
-              {questions[id].author} asks:
-            </div>
-          </Card>
+
+
+  return (
+    <Card
+      elevation={15}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "left",
+        width: 700,
+      }}
+    >
+      <>
+        <Header
+          as="h5"
+          textAlign="left"
+          style={{
+            borderTop: `3px solid ${tabColor.hex}`,
+            marginTop: 0,
+            margin: 0,
+          }}
+        ></Header>
+        <Card
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            backgroundColor: "lightGrey",
+            height: 50,
+          }}
+        >
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
+              fontSize: 20,
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "left",
-              }}
-            >
-              <Image src={`${user.avatarURL}`} size="small" circular centered />
-            </div>
+            {questions[id].author} asks:
+          </div>
+        </Card>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "left",
+            }}
+          >
+            <Image src={`${avatarURL}`} size="small" circular centered />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "left",
+            }}
+          >
+            <Header as="h5" textAlign="center" style={{ color: "black" }}>
+              Would you rather
+            </Header>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "left",
+                alignItems: "center",
               }}
             >
-              <Header as="h5" textAlign="center" style={{ color: "black" }}>
-                Would you rather
-              </Header>
-              <div
+              <p>
+                {questions[id].optionOne.text}
+                <br />
+                or...
+              </p>
+              <Button
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  height: 40,
+                  width: 300,
+                  margin: 10,
+                  backgroundColor: `solid ${tabColor.hex}`,
                 }}
+                onClick={() => handleQuestionClick(id)}
               >
-                <p>
-                  {questions[id].optionOne.text}
-                  <br />
-                  or...
-                </p>
-                <Button
-                  style={{
-                    height: 40,
-                    width: 300,
-                    margin: 10,
-                    backgroundColor: `solid ${tabColor.hex}`,
-                  }}
-                  onClick={() => handleQuestionClick(id)}
-                >
-                  {unanswered === true ? "Answer Poll" : "Results"}
-                </Button>
-              </div>
+                {unanswered === true ? "Answer Poll" : "Results"}
+              </Button>
             </div>
           </div>
-        </>
-      </Card>
-    );
-  }
+        </div>
+      </>
+    </Card>
+  );
+}
 
 function mapStateToProps({ authedUser, users, questions }, { id }) {
-  //const user = authedUser ? users[authedUser] : null;
   const user = users[users.authedUser];
-  console.log({ id });
-  //const question = users[user].questions;
-
+ 
   const unanswered = !Object.keys(user.answers).includes(id);
   const answered = user.questions.includes(id);
-  //console.log(authedUser);
-  console.log(questions[id].id);
-  return {
+    return {
     questions,
     id,
     unanswered,
+ users,
     answered,
     user,
   };

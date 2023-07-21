@@ -29,25 +29,29 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
       <nav
         style={{
           display: "flex",
-          justifyContent: "center",
           alignItems: "center",
+          justifyContent: "space-between",
+          // height: 20,
+          // margin:0,
+          // padding:0
         }}
         className="navbar"
       >
-        <ul>
-          <li>
+        <ul style={{display: "flex"}}>
+          <ul>
             <Link to="/">Home</Link>
-          </li>
-          <li>
+          </ul>
+          <ul>
             <Link to="/new-poll">New Poll</Link>
-          </li>
-          <li>
+          </ul>
+          <ul>
             <Link to="/leaderboard">Leaderboard</Link>
-          </li>
+          </ul>
         </ul>
-        <div className="user-info">
-          <img src={user.avatarURL} alt="User Avatar" />
-          {user && <span>{<li key={user.id}>{user.name}</li>}</span>}
+        <div style={{display:"flex"}}className="user-info">
+          <img style={{width:40,
+          height:40}} src={user.avatarURL} alt="User Avatar" />
+          {user && <span>{<ul key={user.id}>{user.name}</ul>}</span>}
           <button>Logout</button>
         </div>
       </nav>

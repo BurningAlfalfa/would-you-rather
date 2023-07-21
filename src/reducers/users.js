@@ -7,7 +7,7 @@ export default function users(state = {}, action) {
       return {
         ...state,
         ...action.users,
-        users: action.payload,
+        // users: action.payload,
       };
     case GET_AUTHED_USER:
       return state;
