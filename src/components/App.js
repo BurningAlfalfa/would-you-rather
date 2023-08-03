@@ -3,7 +3,7 @@ import React, { Component, Fragment } from "react";
 import { handleInitalData } from "../actions/shared";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoadingBar } from "react-redux-loading-bar";
-//import Nav from "./Nav";
+import Navbar from "./Navbar";
 import Login from "./Login";
 import authedUser from "../actions/authedUser";
 import Poll from "./Poll";
@@ -26,6 +26,7 @@ class App extends Component {
 
     return (
       <BrowserRouter>
+       {authedUser && <Navbar />}
         <Routes>
           {!authedUser ? (
             // <Route path="/" element={<Login users={this.props.users} />}></Route>

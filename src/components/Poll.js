@@ -5,7 +5,7 @@ import { Header, Segment, Button, Grid, Image } from "semantic-ui-react";
 import React, { Component } from "react";
 
 
-const Poll = (props, users, avatarURL, author, user) => {
+const Poll = (props, users, avatarURL, author, user, showResults) => {
   const { question_id } = useParams();
   const question = props.questions[question_id];
   if (!question) {
@@ -14,7 +14,7 @@ const Poll = (props, users, avatarURL, author, user) => {
    const authorId = question.author;
   // const avatarUser = users[authorId];
   // const avatarURL = avatarUser.avatarURL;
-  console.log({users})
+  console.log({showResults})
   return (
     <div>
      <Card
@@ -83,30 +83,45 @@ const Poll = (props, users, avatarURL, author, user) => {
                 Would you rather
               </Header>
               <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <p>
-                  {question.optionOne.text}
-                  <h3>or</h3>
-                  {question.optionTwo.text}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <p>
+              {question.optionOne.text}
+              <h3>or</h3>
+              {question.optionTwo.text}
+            </p>
+           { console.log(showResults)}
 
-                </p>
+            {showResults ? (
+              <>
+                <p>You have answered this question.</p>
                 <Button
                   style={{
                     height: 40,
                     width: 300,
                     margin: 10,
-                    //backgroundColor: `solid ${tabColor.hex}`,
                   }}
-                  // onClick={() => handleQuestionClick(id)}
                 >
-                {/* {unanswered === true ? "Answer Poll" : "Results"} */}
+                  Results
                 </Button>
-              </div>
+              </>
+            ) : (
+              <Button
+                style={{
+                  height: 40,
+                  width: 300,
+                  margin: 10,
+                }}
+                // onClick={() => handleQuestionClick(id)}
+              >
+                Answer Poll
+              </Button>
+            )}
+          </div>
             </div>
           </div>
         </>
@@ -118,15 +133,21 @@ const Poll = (props, users, avatarURL, author, user) => {
   );
 };
 
-function mapStateToProps({ questions, users, } ,{id}) {
+function mapStateToProps({ questions, users }, ownProps) {
+  // const question_id = ownProps.question_id; // assuming you pass question_id as a prop
+
   const user = users[users.authedUser];
+  const answeredQuestions = user ? Object.keys(user.answers) : [];
+  const showResults = answeredQuestions.includes(question_id);
 
   return {
     questions,
     users,
-    id,
-    user
+    id: question_id,
+    user,
+    showResults,
   };
 }
+
 
 export default connect(mapStateToProps)(Poll);

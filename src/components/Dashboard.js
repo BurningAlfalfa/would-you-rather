@@ -26,7 +26,7 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
 
   return (
     <div>
-      <nav
+      {/* <nav
         style={{
           display: "flex",
           alignItems: "center",
@@ -54,7 +54,7 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
           {user && <span>{<ul key={user.id}>{user.name}</ul>}</span>}
           <button>Logout</button>
         </div>
-      </nav>
+      </nav> */}
       <h3 className="center">Your Timeline</h3>
       <Box
         style={{}}
