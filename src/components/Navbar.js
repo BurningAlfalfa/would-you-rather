@@ -34,7 +34,14 @@ const Navbar = ({  user}) => {
     <div style={{display:"flex"}}className="user-info">
       <img style={{width:40,
       height:40}} src={user.avatarURL} alt="User Avatar" />
-{user && <span>{user.name}</span>}
+{user && <span style={{
+      display: "flex",
+      alignItems: "center",
+      // justifyContent: "space-between",
+      // height: 20,
+      margin:10,
+      // padding:0
+    }}>{user.name}</span>}
       <button>Logout</button>
     </div>
   </nav>

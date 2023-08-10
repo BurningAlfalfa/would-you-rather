@@ -39,7 +39,9 @@ function Question({ question, unanswered, questions, id, answers, user, users, a
   const { avatar, optionOne, timestamp, option2, text } = user;
   const authorId = questions[id].author;
   const avatarUser = users[authorId];
+  console.log({ avatarUser, authorId, users, questions});
   const avatarURL = avatarUser.avatarURL;
+  // console.log({avatarURL,authorId,avatarUser,users,questions,id,author,avatar,optionOne,timestamp,option2,text});
 
 
 
@@ -142,7 +144,9 @@ function Question({ question, unanswered, questions, id, answers, user, users, a
 
 function mapStateToProps({ authedUser, users, questions }, { id }) {
   const user = users[users.authedUser];
- 
+  console.log({questions})
+  console.log({users, authedUser})
+
   const unanswered = !Object.keys(user.answers).includes(id);
   const answered = user.questions.includes(id);
     return {

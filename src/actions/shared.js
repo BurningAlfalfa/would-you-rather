@@ -1,8 +1,9 @@
 import { getInitialData } from "../utils/api";
 import { receiveUsers } from "./users";
 import { receiveQuestions } from "./questions";
-import { setAuthedUser } from "./authedUser";
-import { ActionTypes } from "@mui/base";
+import { _saveQuestion } from "../utils/_DATA";
+import { saveQuestion } from "../utils/api";
+import { addQuestion } from "../actions/questions";
 //const authedUser = "tylermcginnis";
 
 export function handleInitalData() {
@@ -16,3 +17,14 @@ export function handleInitalData() {
     });
   };
 }
+
+
+// export function handleNewData(optionOneText, optionTwoText, author) {
+//   return (dispatch) => {
+//     return saveQuestion({ optionOneText, optionTwoText, author }).then(
+//       (question) => {
+//         dispatch(addQuestion(question));
+//       }
+//     );
+//   };
+// }

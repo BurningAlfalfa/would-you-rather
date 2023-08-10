@@ -11,7 +11,7 @@ export function receiveQuestions(questions) {
     questions,
   };
 }
-/*
+
 export function addAnswerToQuestion(authUser, qid, answer) {
   return {
     type: ADD_ANSWER_TO_QUESTION,
@@ -21,21 +21,23 @@ export function addAnswerToQuestion(authUser, qid, answer) {
   };
 }
 
-function addQuestion(question) {
+export function addQuestion(optionOne, optionTwo, author) {
   return {
     type: ADD_QUESTION,
-    question,
+    optionOne,
+    optionTwo,
+    author,
   };
 }
 
-export function handleSaveQuestion(optionOneText, optionTwoText, author) {
-  return (dispatch) => {
-    return saveQuestion({ optionOneText, optionTwoText, author }).then(
-      (question) => {
-        dispatch(addQuestion(question));
-        dispatch(addQuestionToUser(question));
-      }
-    );
-  };
-}
-*/
+// export function handleSaveQuestion(optionOneText, optionTwoText, author) {
+//   return (dispatch) => {
+//     return saveQuestion({ optionOneText, optionTwoText, author }).then(
+//       (question) => {
+//         dispatch(addQuestion(question));
+//         // dispatch(addQuestionToUser(question));
+//       }
+//     );
+//   };
+// }
+

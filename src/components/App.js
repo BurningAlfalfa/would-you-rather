@@ -11,6 +11,8 @@ import NewPoll from "./NewPoll";
 import Dashboard from "./Dashboard";
 import Question from "./Question";
 import Leaderboard from "./Leaderboard";
+// import store from '../middleware/store'
+import { Provider } from 'react-redux';
 
 class App extends Component {
   async componentDidMount() {
@@ -25,6 +27,8 @@ class App extends Component {
     let authedUser = this.props.authedUser;
 
     return (
+      // <Provider store={store}>
+
       <BrowserRouter>
        {authedUser && <Navbar />}
         <Routes>
@@ -39,6 +43,7 @@ class App extends Component {
           <Route path="/question/:question_id" element={<Poll/>} />
         </Routes>
       </BrowserRouter>
+      // </Provider>
     );
   }
 }

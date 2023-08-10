@@ -26,11 +26,24 @@ export default function questions(state = {}, action) {
         },
       };
     case ADD_QUESTION:
-      const { question } = action;
-
+      const { optionOne,  optionTwo, author } = action;
+      const id  = new Date().getTime();
       return {
         ...state,
-        [question.id]: question,
+        [id]: {
+          id,
+          author,
+          optionOne: {
+            votes: [],
+            text: optionOne,
+          },
+          optionTwo: {
+            votes: [],
+            text: optionTwo,
+          },
+        },
+
+
       };
     default:
       return state;
