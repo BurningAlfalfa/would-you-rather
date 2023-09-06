@@ -26,49 +26,58 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
 
   return (
     <div>
-      {/* <nav
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          // height: 20,
-          // margin:0,
-          // padding:0
-        }}
-        className="navbar"
-      >
-        <ul style={{display: "flex"}}>
-          <ul>
-            <Link to="/">Home</Link>
-          </ul>
-          <ul>
-            <Link to="/new-poll">New Poll</Link>
-          </ul>
-          <ul>
-            <Link to="/leaderboard">Leaderboard</Link>
-          </ul>
-        </ul>
-        <div style={{display:"flex"}}className="user-info">
-          <img style={{width:40,
-          height:40}} src={user.avatarURL} alt="User Avatar" />
-          {user && <span>{<ul key={user.id}>{user.name}</ul>}</span>}
-          <button>Logout</button>
-        </div>
-      </nav> */}
-      <h3 className="center">Your Timeline</h3>
-      <Box
+      {/* <Box
+  sx={{
+    display: 'flex',
+    flexDirection: 'column', // Stack children vertically
+    height: '100%',          // Occupy full height
+  }}
+>
+  <Box
+    sx={{
+      borderBottom: 1, 
+      borderColor: "divider",
+      alignItems: 'center',   // Center the icon horizontally
+    }}
+  >
+    <Tabs value={selectedTab} onChange={handleChange}>
+      <Tab label="Unanswered" />
+      <Tab label="Answered" />
+    </Tabs>
+  </Box>
+
+  {/* Adjust styles for the content based on the selected tab */}
+  {/* <Box
+    sx={{
+      flexGrow: 1,          // Take up all remaining vertical space
+      backgroundColor: selectedTab === 0 ? 'background.default' : 'background.paper',
+      padding: 2,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 2,
+    }}
+  >
+    {selectedTab === 0 && renderQuestions(unansweredQuestions)}
+    {selectedTab === 1 && renderQuestions(answeredQuestions)}
+  </Box>
+</Box> */} 
+
+       <Box
         style={{}}
-        sx={{
-          borderColor: "grey",
-        }}
-      >
+      //   sx={{
+      //     borderColor: "grey",
+      //     borderWidth: 1,   // This ensures the border exists
+      //     borderStyle: "solid",
+      //   }}
+       >
         <Box
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            //border: "1px solid grey",
           }}
-          sx={{ borderBottom: 1, borderColor: "divider" }}
+          // sx={{ borderBottom: 1, borderColor: "divider" }}
         >
           <Tabs value={selectedTab} onChange={handleChange}>
             <Tab label="Unanswered" />
@@ -82,9 +91,9 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
               display: "flex",
               alignItems: "center",
               flexDirection: "column",
+              padding: 20,
             }}
           >
-            <h4>Unanswered Questions</h4>
             {renderQuestions(unansweredQuestions)}
           </div>
         )}
@@ -95,20 +104,19 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
               display: "flex",
               alignItems: "center",
               flexDirection: "column",
+              padding: 20,
             }}
           >
-            <h4>Answered Questions</h4>
             {renderQuestions(answeredQuestions)}
           </div>
         )}
-      </Box>
+      </Box> 
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
   const { questions, users, answers } = state;
-  // console.log(users);
   const { authedUser } = users;
   console.log({ users, authedUser });
   const user = authedUser ? users[authedUser] : null;
@@ -131,11 +139,12 @@ const mapStateToProps = (state) => {
   const selectedUser = user ? users[authedUser] : null;
   const userName = selectedUser ? selectedUser.name : null;
   const userAvatar = selectedUser ? selectedUser.avatarURL : null;
-
+console.log({authedUser})
   return {
     unansweredQuestions,
     answeredQuestions,
     user,
+    authedUser
   };
 };
 

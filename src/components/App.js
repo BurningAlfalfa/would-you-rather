@@ -10,6 +10,7 @@ import Poll from "./Poll";
 import NewPoll from "./NewPoll";
 import Dashboard from "./Dashboard";
 import Question from "./Question";
+import Results from "./Results";
 import Leaderboard from "./Leaderboard";
 // import store from '../middleware/store'
 import { Provider } from 'react-redux';
@@ -38,9 +39,10 @@ class App extends Component {
           ) : (
             <Route path="/" element={<Dashboard />}></Route>
           )}
-          <Route path="/new-poll" element={<NewPoll />} />
+          <Route path="/" element={<NewPoll />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/question/:question_id" element={<Poll/>} />
+          <Route path="/results/:question_id" element={<Results/>} />
         </Routes>
       </BrowserRouter>
       // </Provider>

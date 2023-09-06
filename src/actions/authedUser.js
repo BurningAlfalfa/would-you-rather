@@ -20,6 +20,16 @@ export function setAuthedUser(id) {
   }
   */
 }
+// actions/authedUser.js
+
+export const LOGOUT_USER = 'LOGOUT_USER';
+
+export function logoutUser() {
+  return {
+    type: LOGOUT_USER
+  };
+}
+
 export function isUserAuthed () {
   return {
     type: GET_AUTHED_USER

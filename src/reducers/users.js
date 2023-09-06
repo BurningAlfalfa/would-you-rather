@@ -20,6 +20,16 @@ export default function users(state = {}, action) {
         ...state,
         authedUser: action.id,
       };
+      case "VOTE":
+               console.log({action})
+
+        return{
+        ...state,
+        [action.payload.userId]: {...state[action.payload.userId] , answers: {...state[action.payload.userId].answers, [action.payload.questionId]: action.payload.vote}}      
+        
+
+        }  
+         
     default:
       return state;
   }

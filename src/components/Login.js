@@ -21,7 +21,7 @@ class Login extends Component {
     const authedUser = this.state.value;
     setAuthedUser(authedUser);
   };
-  /*generateDropdownData = () => {
+  generateDropdownData = () => {
     const { users } = this.props;
     console.log("hi");
     return (
@@ -33,7 +33,7 @@ class Login extends Component {
         image: { avatar: true, src: user.avatarURL },
       }))
     );
-  };*/
+  };
 
   render() {
     //const { value } = this.props;

@@ -28,18 +28,22 @@ function Question({ question, unanswered, questions, id, answers, user, users, a
   const navigate = useNavigate();
 
   const handleQuestionClick = (questionId) => {
+   // if (unanswered === true) {
     navigate(`/question/${questionId}`);
+    // } else {
+    //   navigate(`/results/${questionId}`);
+    // }
   };
 
   if (question === null) {
     return <p>This question doesnt exist </p>;
   }
 
+
   const tabColor = unanswered === true ? color.green : color.blue;
   const { avatar, optionOne, timestamp, option2, text } = user;
   const authorId = questions[id].author;
   const avatarUser = users[authorId];
-  console.log({ avatarUser, authorId, users, questions});
   const avatarURL = avatarUser.avatarURL;
   // console.log({avatarURL,authorId,avatarUser,users,questions,id,author,avatar,optionOne,timestamp,option2,text});
 
@@ -142,20 +146,22 @@ function Question({ question, unanswered, questions, id, answers, user, users, a
   );
 }
 
-function mapStateToProps({ authedUser, users, questions }, { id }) {
-  const user = users[users.authedUser];
-  console.log({questions})
-  console.log({users, authedUser})
+function mapStateToProps({  users, questions }, { id }) {
+  const { authedUser } = users;
 
+  const user = users[users.authedUser];
+  console.log({users, authedUser})
+   console.log({questions})
   const unanswered = !Object.keys(user.answers).includes(id);
   const answered = user.questions.includes(id);
     return {
     questions,
     id,
     unanswered,
- users,
+    users,
     answered,
     user,
+    authedUser
   };
 }
 export default connect(mapStateToProps)(Question);

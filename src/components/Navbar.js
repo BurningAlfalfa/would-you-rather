@@ -1,11 +1,21 @@
 // MainLayout.js
 import React from 'react';import { connect } from "react-redux";
 import Question from "./Question";
+import { logoutUser } from '../actions/authedUser';
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
-const Navbar = ({  user}) => {
+
+
+const Navbar = ({  user, dispatch}) => {
+    // const navigate = useNavigate();
+     
+    // const handleLogout = (e) => {
+    //   e.preventDefault();
+    //   logoutUser();
+    //   navigate('/')
+    // };
   return (
     <nav
     style={{
@@ -25,7 +35,7 @@ const Navbar = ({  user}) => {
         <Link to="/">Home</Link>
       </ul>
       <ul>
-        <Link to="/new-poll">New Poll</Link>
+        <Link to="/add">New Poll</Link>
       </ul>
       <ul>
         <Link to="/leaderboard">Leaderboard</Link>
@@ -42,16 +52,20 @@ const Navbar = ({  user}) => {
       margin:10,
       // padding:0
     }}>{user.name}</span>}
-      <button>Logout</button>
+      <button /*onClick={handleLogout */>Logout</button>
     </div>
   </nav>
      
   );
 };
-
+const mapdispatchToProps = (dispatch) => ({
+  dispatch
+})
 const mapStateToProps = (state) => {
   const { questions, users, answers } = state;
   const { authedUser } = users;
+  //const authedUser = users ? users.authedUser : null;
+
   const user = authedUser ? users[authedUser] : null;
 
   const questionsArray = Object.values(questions);

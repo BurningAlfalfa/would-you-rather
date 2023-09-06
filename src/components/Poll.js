@@ -1,37 +1,51 @@
-import { useParams } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { Fragment } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, Header, Button, Image } from "semantic-ui-react";
 
-import { Card } from "@mui/material";
-import { Header, Segment, Button, Grid, Image } from "semantic-ui-react";
-import React, { Component ,useState} from "react";
-
-
-const Poll = (props ) => {
+const Poll = () => {
   const { question_id } = useParams();
-  const question = props.questions[question_id];
-  const [optionOneVotes, setOptionOneVotes] = useState(0);
-  const [optionTwoVotes, setOptionTwoVotes] = useState(0);
-  if (!question) {
-    return <p>This question doesn't exist </p>;
-  }
-  const user = props.user;
-  const answeredQuestions = user ? Object.keys(user.answers) : [];
-  const showResults = answeredQuestions.includes(question_id);
-  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // const handleButtonClick = () => {
-  //   setOptionOneVotes(question.optionOne.votes.length);
-  //   setOptionTwoVotes(question.optionTwo.votes.length);
+  const question = useSelector(state => state.questions[question_id]);
+  const authedUser = useSelector(state => state.users.authedUser);
+  const user = useSelector(state => state.users[question.author]);
+
+  if (!question) {
+    return <p>This question doesn't exist</p>;
+  }
+
+  // const handleBackClick = () => {
+  //   // history.goBack();
   // };
-  // const avatarUser = users[authorId];
-  // const avatarURL = avatarUser.avatarURL;
-  console.log({showResults})
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: "VOTE",
+      payload: {
+        questionId: question_id,
+        userId: authedUser,
+        vote: e.target.option.value,
+      },
+    });
+    navigate("/");
+        //this.props.history.push("/");
+  };
+
+  const hasUserVoted = question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser);
+  const votesTotal = question.optionOne.votes.length + question.optionTwo.votes.length;
+  const optionOneVotes = question.optionOne.votes.length;
+  const optionTwoVotes = question.optionTwo.votes.length;
+  const percentageOne= ((optionOneVotes / votesTotal) * 100).toFixed(2);
+  const percentageTwo= ((optionTwoVotes / votesTotal) * 100).toFixed(2);
+
+    {console.log(question)}
   return (
-    <div style={
-      {justifyContent: "center",
-    display: "flex",}
-    }>
-     <Card
+    
+    <div style={{ justifyContent: "center", display: "flex" }}>
+      <Card
         elevation={15}
         style={{
           display: "flex",
@@ -40,166 +54,210 @@ const Poll = (props ) => {
           width: 700,
         }}
       >
-        <>
-          <Header
-            as="h5"
-            textAlign="left"
-            style={{
-              // borderTop: `3px solid ${tabColor.hex}`,
-              marginTop: 0,
-              margin: 0,
-            }}
-          ></Header>
-          <Card
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              backgroundColor: "lightGrey",
-              height: 50,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                fontSize: 20,
-              }}
-            >
-              {question.author} asks:
-            </div>
-          </Card>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "left",
-              }}
-            >
-              <Image src={`${user.avatarURL}`} size="small" circular centered />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "left",
-              }}
-            >
-              <Header as="h5" textAlign="center" style={{ color: "black" }}>
-                Would you rather
-              </Header>
-              <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <p>
-              {question.optionOne.text}
-              <h3>or</h3>
-              {question.optionTwo.text}
-            </p>
-           { console.log(showResults)}
+        <Header as="h5" textAlign="left">
+          {question.author} asks:
+        </Header>
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+          <Image src={user.avatarURL} size="small" circular centered />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "left" }}>
+            <Header as="h5" textAlign="center" style={{ color: "black" }}>
+              Would you rather
+            </Header>
+            
+            {hasUserVoted ? (
+              <Fragment>
+        <header as="h3">
+          Results:
+           {/* <div style={{ fontWeight: "bold" }}>Would you rather</div> */}
+        </header>
+        <div
+          // color={option1.color}
+          // style={{ backgroundColor: `${option1.bgColor}` }}
+        >
+          {/* {userVote === "optionOne" && <YourVoteLabel />} */}
+          <p style={{ fontWeight: "bold" }}>{question.optionOne.text}</p>
+          <div style={{ 
+    border: '1px solid #ccc', 
+    width: '100%', 
+    height: '20px', 
+    borderRadius: '4px', 
+    overflow: 'hidden'
+}}>
+    <div style={{ 
+        width: `${percentageOne}%`, 
+        height: '100%', 
+        backgroundColor:  'green', 
+        textAlign: 'center', 
+        lineHeight: '20px'
+    }}>
+        {percentageOne}%
+    </div>
+</div>
+            {/* {optionOneVotes} out of {votesTotal} votes
+          </div> */}
+        </div>
+        <div
+          // color={option2.color}
+          // style={{ backgroundColor: `${option2.bgColor}` }}
+        >
+          {/* {userVote === "optionTwo" && <YourVoteLabel />} */}
 
-            {showResults ? (
-              <>
-                <p>You have answered this question.</p>
-                <Button
-                  style={{
-                    height: 40,
-                    width: 300,
-                    margin: 10,
-                  }}
-                            // onClick={handleButtonClick}
-
-                >
-                  Results
-                </Button>
-              </>
+          <p style={{ fontWeight: "bold" }}>{question.optionTwo.text}</p>
+        </div>
+        <div style={{ 
+    border: '1px solid #ccc', 
+    width: '100%', 
+    height: '20px', 
+    borderRadius: '4px', 
+    overflow: 'hidden'
+}}>
+    <div style={{ 
+        width: `${percentageTwo}%`, 
+        height: '100%', 
+        backgroundColor:  'green', 
+        textAlign: 'center', 
+        lineHeight: '20px'
+    }}>
+        {percentageTwo}%
+    </div>
+</div>
+              </Fragment>
             ) : (
-              <Button
-                style={{
-                  height: 40,
-                  width: 300,
-                  margin: 10,
-                }}
-                          // onClick={handleButtonClick}
-
-                // onClick={() => handleQuestionClick(id)}
-              >
-                Answer Poll
-              </Button>
+              <form onSubmit={handleSubmit}>
+                <label>
+                  {question.optionOne.text}
+                  <input type="radio" value="optionOne" name="option" />
+                </label>
+                <p>or</p>
+                <label>
+                  {question.optionTwo.text}
+                  <input type="radio" value="optionTwo" name="option" />
+                </label>
+                <br />
+                <Button type="submit">Submit</Button>
+              </form>
             )}
-            <div>
-   Option One Votes: {optionOneVotes}
-</div>
-<div>
-   Option Two Votes: {optionTwoVotes}
-</div>
 
+            {/* <Button onClick={handleBackClick}>Back</Button> */}
           </div>
-            </div>
-          </div>
-        </>
+        </div>
       </Card>
- 
-      
-      {/* Add your layout and design here */}
     </div>
   );
 };
 
-function mapStateToProps({ questions, users, authedUser }, { questions}) {
-  const question = questions[id];
-  const user = users[authedUser];
+export default Poll;
+// // import { useParams } from "react-router-dom";
+// import { connect } from "react-redux";
+// // import React, { useState } from "react";
+// import { Card, Header, Button, Image } from "semantic-ui-react";
+// import { useSelector, useDispatch} from 'react-redux';
+// import { useParams } from 'react-router-dom';
+// import { useHistory } from "react-router-dom";
+// // import { handleSaveQuestionAnswer } from "../actions/questions";
+// import  {unanswered, answered} from ".question";
 
-  const optionOneVotes = question.optionOne.votes.length;
-  const optionTwoVotes = question.optionTwo.votes.length;
-  const userVote = user.answers[id];
+// const Poll = (unanswered, answered) => {
+//   const { question_id } = useParams();
+//   const dispatch = useDispatch();
+//   console.log({ question_id, state: useSelector(state => state) })
+//   const question = useSelector(state => Object.values(state.questions).find
+
+//     (
+//       question => String(question.id) === question_id
+//     ));
+//   const authedUser = useSelector(state => state.users.authedUser);
+//   const user = useSelector(state => Object.values(state.users).find
+//     (
+//       user => String(user.id) === question.author));
+//   console.log({ question, user })
+//   console.log({state:useSelector(state => state)})
+
+//   if (!question) {
+//     return <p>This question doesn't exist</p>;
+//   }
  
-  const answeredQuestions = user ? Object.keys(user.answers) : [];
-  const showResults = answeredQuestions.includes(question_id);
+//   const handlesubmit = (e) => {
+//     e.preventDefault();
+//     console.log(e.target.option.value)
 
-  // let option1 = styles.secondary,
-  //   option2 = styles.secondary;
-  // if (optionOneVotes > optionTwoVotes) {
-  //   option1 = styles.primary;
-  // } else if (optionTwoVotes > optionOneVotes) {
-  //   option2 = styles.primary;
-  // }
+    
+//    dispatch({
+//      type: "VOTE",
+//      payload: {
+//        questionId: question_id,
+//        userId: authedUser,
+//        vote: e.target.option.value,
+//      },
+//    });
+//   }
+//   return (
+    
+//     <div style={{ justifyContent: "center", display: "flex" }}>
+//       <Card
+//         elevation={15}
+//         style={{
+//           display: "flex",
+//           flexDirection: "column",
+//           alignItems: "left",
+//           width: 700,
+//         }}
+//       >
+//         <Header
+//           as="h5"
+//           textAlign="left"
+//           style={{
+//             marginTop: 0,
+//             margin: 0,
+//           }}
+//         >
+//           {question.author} asks:
+//         </Header>
+//         <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+//           <div style={{ display: "flex", flexDirection: "row", alignItems: "left" }}>
+//             <Image src={`${user.avatarURL}`} size="small" circular centered />
+//           </div>
+//           <div style={{ display: "flex", flexDirection: "column", alignItems: "left" }}>
+//             <Header as="h5" textAlign="center" style={{ color: "black" }}>
+//               Would you rather
+//             </Header>
+//             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+//               <form onSubmit={handlesubmit}>
+//                 <label>
+//                 {question.optionOne.text}
+//                   <input type="radio" value="optionOne" name="option" />
+//                 <p>or</p>
+              
+//                   {question.optionTwo.text}
+//                    <input type="radio" value="optionTwo" name="option" />
+//                 </label>
+//                 <br></br>
 
-  return {
-    question,
-    user,
-    questions,
-    users,
-    // id: question_id,
-    userVote,
-    showResults
-    // showResults: !!userVote, // showResults will be true if user has answered the question
-  };
-}
-export default connect(mapStateToProps)(Poll);
+//           <button   >Submit</button>
+//                 {/* <input type="submit" value="Submit" onChange={handlesubmit}/> */}
+//               </form>
 
-// function mapStateToProps({ questions, users }, ownProps) {
-//   // const question_id = ownProps.question_id; // assuming you pass question_id as a prop
+//             </div>
+//           </div>
+//         </div>
+//       </Card>
+//     </div>
+//   );
+// };
 
-//   const user = users[users.authedUser];
-//   const answeredQuestions = user ? Object.keys(user.answers) : [];
-//   const showResults = answeredQuestions.includes(question_id);
+//   // const user = users[authedUser];
+//   // const question = questions[question_id];
+//   // // const optionOneVotes = questions[question_id].optionOne.votes.length;
+//   // // const optionTwoVotes = questions[question_id].optionTwo.votes.length;
+//   // const answeredQuestions = user ? Object.keys(user.answers) : [];
+//   // const showResults = answeredQuestions.includes(question_id);
+//   // console.log({ questions, users, authedUser,question});
 
-//   return {
-//     questions,
-//     users,
-//     id: question_id,
-//     user,
-//     showResults,
+//     // user,
+//     // question,
+//     // // optionOneVotes,
+//     // // optionTwoVotes,
+//     // showResults,
+  
+
+// export default (Poll);

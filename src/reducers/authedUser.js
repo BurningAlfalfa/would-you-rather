@@ -1,3 +1,5 @@
+import { LOGOUT_USER } from "../actions/authedUser";
+
 export default function authedUser(state = null, action) {
   console.log({ action });
   switch (action.type) {
@@ -12,7 +14,9 @@ export default function authedUser(state = null, action) {
         ...state,
         authedUser: action.id,
       };
-
+      case LOGOUT_USER:
+        return null;  
+        
     default:
       return state;
     /*if (action.type === SET_AUTHED_USER) {
