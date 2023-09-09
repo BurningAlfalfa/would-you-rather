@@ -26,7 +26,7 @@ class App extends Component {
   render() {
     // const { authedUser } = this.props;
     let authedUser = this.props.authedUser;
-
+console.log({authedUser})
     return (
       // <Provider store={store}>
 
@@ -39,7 +39,7 @@ class App extends Component {
           ) : (
             <Route path="/" element={<Dashboard />}></Route>
           )}
-          <Route path="/" element={<NewPoll />} />
+          <Route path="/add" element={<NewPoll />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/question/:question_id" element={<Poll/>} />
           <Route path="/results/:question_id" element={<Results/>} />

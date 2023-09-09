@@ -26,8 +26,8 @@ export default function questions(state = {}, action) {
         },
       };
     case ADD_QUESTION:
-      const { optionOne,  optionTwo, author } = action;
-      const id  = new Date().getTime();
+      const { optionOne, optionTwo, author } = action;
+      const id = new Date().getTime();
       return {
         ...state,
         [id]: {
@@ -42,10 +42,24 @@ export default function questions(state = {}, action) {
             text: optionTwo,
           },
         },
-
-
       };
-     
+    case "VOTE":
+      console.log({ action });
+      const { payload: { questionId, option, authedUser } } = action
+      
+      
+      return {
+        ...state,
+        [questionId]: {
+          ...state[questionId],
+          [option]: {
+            ...state[questionId][option],
+            votes: [...state[questionId][option].votes, authedUser
+              
+            ],
+          },
+        },
+      };
     default:
       return state;
   }

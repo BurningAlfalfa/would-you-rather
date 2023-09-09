@@ -37,18 +37,24 @@ navigate('/');
   // };
 
   return (
-    <div>
+    <div style={{ justifyContent: "center", display: "flex" ,flexDirection: "column", alignItems: "center" }}>
+      <h2 style={{ textAlign: "center" }}>Would you rather</h2>
       <Input 
+        style={{ width: "fit-content", marginTop: 2 }}
+        justifyContent="center"
         placeholder="Enter option one..." 
         value={optionOne} 
         onChange={(e) => setOptionOne(e.target.value)} 
       />
+      <h3 style={{ textAlign: "center" }}>OR</h3>
       <Input 
         placeholder="Enter option two..." 
         value={optionTwo} 
         onChange={(e) => setOptionTwo(e.target.value)} 
       />
       <Button 
+        style={{ marginTop: 20 }}
+        maxWidth={50}
         onClick={handleSubmit} 
         disabled={!optionOne || !optionTwo || loading}
       >

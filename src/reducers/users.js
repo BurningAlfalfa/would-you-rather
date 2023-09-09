@@ -1,6 +1,6 @@
 import { RECEIVE_USERS } from "../actions/users";
 import { SET_AUTHED_USER, GET_AUTHED_USER } from "../actions/authedUser";
-
+import { LOGOUT_USER } from "../actions/authedUser";
 export default function users(state = {}, action) {
   switch (action.type) {
     case RECEIVE_USERS:
@@ -20,15 +20,28 @@ export default function users(state = {}, action) {
         ...state,
         authedUser: action.id,
       };
+      case LOGOUT_USER:
+        console.log("logout");
+        return {
+          ...state,
+          authedUser: null,
+        };
       case "VOTE":
                console.log({action})
-
-        return{
-        ...state,
-        [action.payload.userId]: {...state[action.payload.userId] , answers: {...state[action.payload.userId].answers, [action.payload.questionId]: action.payload.vote}}      
         
+        const { payload: { authedUser, option,questionId  } } = action
+        console.log({state, authedUser, option,questionId, })
+        return {
+          ...state,
+          [authedUser]: {
+            ...state[authedUser],
+            answers: {
+              ...state[authedUser].answers,
+              [questionId]: option,
 
-        }  
+            },
+          },
+        };  
          
     default:
       return state;

@@ -11,8 +11,8 @@ export function receiveUsers(users) {
     users,
   };
 }
-/*
-function addAnswerToUser(authUser, qid, answer) {
+
+function vote(authUser, qid, answer) {
   return {
     type: ADD_ANSWER_TO_USER,
     authUser,
@@ -20,7 +20,7 @@ function addAnswerToUser(authUser, qid, answer) {
     answer,
   };
 }
-
+/*
 export function handleSaveQuestionAnswer(authUser, qid, answer) {
   return (dispatch) => {
     dispatch(addAnswerToUser(authUser, qid, answer));

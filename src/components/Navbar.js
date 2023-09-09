@@ -8,14 +8,14 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 
-const Navbar = ({  user, dispatch}) => {
-    // const navigate = useNavigate();
+const Navbar = ({  user, handleLogout}) => {
+    const navigate = useNavigate();
      
-    // const handleLogout = (e) => {
-    //   e.preventDefault();
-    //   logoutUser();
-    //   navigate('/')
-    // };
+    const onClickLogout = (e) => {
+       e.preventDefault();
+       handleLogout();
+      navigate('/')
+     };
   return (
     <nav
     style={{
@@ -52,18 +52,25 @@ const Navbar = ({  user, dispatch}) => {
       margin:10,
       // padding:0
     }}>{user.name}</span>}
-      <button /*onClick={handleLogout */>Logout</button>
+      <button onClick={onClickLogout }>Logout</button>
     </div>
   </nav>
      
   );
 };
-const mapdispatchToProps = (dispatch) => ({
-  dispatch
-})
+const mapDispatchToProps = (dispatch) => {
+  return{
+    handleLogout: () => {
+      console.log('logout')
+      dispatch(logoutUser())
+    }
+  }
+}
 const mapStateToProps = (state) => {
   const { questions, users, answers } = state;
+  console.log({users})
   const { authedUser } = users;
+  
   //const authedUser = users ? users.authedUser : null;
 
   const user = authedUser ? users[authedUser] : null;
@@ -94,4 +101,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps )(Navbar);
