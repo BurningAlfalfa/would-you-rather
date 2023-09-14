@@ -22,7 +22,8 @@ const Leaderboard = ({ users ,user}) => {
   console.log({user,users})
 
   return (
-    <div>
+    <div style={{display:"flex", justifyContent: "center",
+    alignItems: "center", flexDirection: "column"}}>
       <h1>Leaderboard</h1>
       {sortedUsers.map(([userName, user], index) => (
   <div key={userName} className="user-score">
