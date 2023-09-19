@@ -1,11 +1,19 @@
 // MainLayout.js
 import React from 'react';import { connect } from "react-redux";
-import Question from "./Question";
+import Question from "./Question.tsx";
 import { logoutUser } from '../actions/authedUser';
 
 import { Link, useNavigate } from "react-router-dom";
 
-
+function NotFoundPage() {
+  return (
+    <div>
+      <h1>404 - Not Found</h1>
+      <p>The question you were looking for does not exist.</p>
+      <Link to="/home">Go to Home</Link>
+    </div>
+  );
+}
 
 
 const Navbar = ({  user, handleLogout}) => {
@@ -35,7 +43,7 @@ const Navbar = ({  user, handleLogout}) => {
         <Link to="/">Home</Link>
       </ul>
       <ul>
-        <Link to="/add">New Poll</Link>
+        <Link to="/newpoll">New Poll</Link>
       </ul>
       <ul>
         <Link to="/leaderboard">Leaderboard</Link>

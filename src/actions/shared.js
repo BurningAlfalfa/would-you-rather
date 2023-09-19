@@ -9,12 +9,15 @@ import { addQuestion } from "../actions/questions";
 export function handleInitalData() {
   return (dispatch) => {
     // dispatch(showLoading);
-     return getInitialData().then(({ users, questions }) => {
+     return getInitialData()
+     .then(({ users, questions }) => {
       dispatch(receiveUsers(users));
-
       dispatch(receiveQuestions(questions));
       //dispatch(setAuthedUser(authedUser));
-    });
+    })
+    .catch(error => {
+      console.error("Failed to get initial data:", error);
+  });
   };
 }
 

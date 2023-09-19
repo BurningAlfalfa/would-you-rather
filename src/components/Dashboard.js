@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Question from "./Question";
+import Question from "./Question.tsx";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Results from "./Results";
+// import Results from "./Results";
 
 const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
   const [selectedTab, setSelectedTab] = useState(0);

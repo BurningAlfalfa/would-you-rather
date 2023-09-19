@@ -7,6 +7,7 @@ class Login extends Component {
   state = {
     value: "",
     loading: false,
+      redirectTo404: false,
   };
   handleLoading = () => {
     this.setState({ loading: true });
@@ -20,6 +21,17 @@ class Login extends Component {
     const { /*onLoading,*/ setAuthedUser } = this.props;
     const authedUser = this.state.value;
     setAuthedUser(authedUser);
+
+    this.handleLogin()
+  };
+   handleLogin = () => {
+    const from404 = this.props.location?.state?.from404 || false;
+    
+    if (from404) {
+      this.setState({ redirectTo404: true });
+    } else {
+      // Handle redirection to home or other default page here if needed
+    }
   };
   generateDropdownData = () => {
     const { users } = this.props;
@@ -34,8 +46,12 @@ class Login extends Component {
       }))
     );
   };
+  
 
   render() {
+    if (this.state.redirectTo404) {
+      return <navigate to="/404" />; // redirecting to 404 page
+    }
     //const { value } = this.props;
     //  const disabled = value === "" ? true : false;
     //const { users } = this.props;
@@ -95,6 +111,7 @@ class Login extends Component {
     );
   }
 }
+
 function mapStateToProps({ users }) {
   return {
     users: Object.values(users),

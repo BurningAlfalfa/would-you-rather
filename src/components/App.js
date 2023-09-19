@@ -6,26 +6,25 @@ import { LoadingBar } from "react-redux-loading-bar";
 import Navbar from "./Navbar";
 import Login from "./Login";
 import authedUser from "../actions/authedUser";
-import Poll from "./Poll";
+import Poll from "./Poll.tsx";
 import NewPoll from "./NewPoll";
 import Dashboard from "./Dashboard";
-import Question from "./Question";
-import Results from "./Results";
+import Question from "./Question.tsx";
+// import Results from "./Results";
 import Leaderboard from "./Leaderboard";
-// import store from '../middleware/store'
-import { Provider } from 'react-redux';
+import NotFoundPage from "./Navbar";
 
 class App extends Component {
   async componentDidMount() {
     await handleInitalData()(this.props.dispatch);
-    this.props.dispatch({ type: "SET_AUTHED_USER", id: "joeylene" });
-    // this.props.dispatch(handleInitalData());
+    // this.props.dispatch({ type: "SET_AUTHED_USER", id: "joeylene" });
+    this.props.dispatch(handleInitalData());
   }
   //      <div>{this.props.loading === true ? null : <Dashboard />}</div>
 
   render() {
-    // const { authedUser } = this.props;
-    let authedUser = this.props.authedUser;
+     const { authedUser } = this.props;
+   // let authedUser = this.props.authedUser;
 console.log({authedUser})
     return (
       // <Provider store={store}>
@@ -39,10 +38,12 @@ console.log({authedUser})
           ) : (
             <Route path="/" element={<Dashboard />}></Route>
           )}
-          <Route path="/add" element={<NewPoll />} />
+          <Route path="/newpoll" element={<NewPoll />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/question/:question_id" element={<Poll/>} />
-          <Route path="/results/:question_id" element={<Results/>} />
+                <Route component={NotFoundPage} />
+
+          {/* <Route path="/results/:question_id" element={<Results/>} /> */}
         </Routes>
       </BrowserRouter>
       // </Provider>

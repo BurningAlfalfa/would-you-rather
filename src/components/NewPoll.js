@@ -25,7 +25,7 @@ const NewPoll = (props) => {
  console.log({optionOne, optionTwo, author});
     props.handleSaveQuestion(optionOne, optionTwo, author);
     setLoading(false);
-navigate('/');
+navigate('/home');
     // Optionally, redirect or update UI state here
   };
   
