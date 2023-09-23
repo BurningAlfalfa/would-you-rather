@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
+import { useNavigate, useLocation } from "react-router";
+import { setLastVisitedUrl,logoutUser } from '../actions/authedUser';
 
 const Leaderboard = ({ users ,user}) => {
   // Sort users by score in descending order
+
+   const dispatch = useDispatch();
+  const navigate = useNavigate(); 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+   useEffect(() => {
+    if (!isAuthenticated) {
+      dispatch(setLastVisitedUrl('/leaderboard'));
+           navigate('/');
+
+      dispatch(logoutUser());
+     }
+  }, [isAuthenticated, dispatch, navigate]);
   if (!users) {
     return <div>Loading...</div>; 
   }
-  
+ 
+
+ 
   const sortedUsers = Object.entries(users).sort((a, b) => {
     // Ensure that the answers and questions properties exist before trying to use them
     const scoreA = (a[1].answers ? Object.keys(a[1].answers).length : 0) + 

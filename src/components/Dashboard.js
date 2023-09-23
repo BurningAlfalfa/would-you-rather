@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Question from "./Question.tsx";
@@ -8,6 +8,9 @@ import Box from "@mui/material/Box";
 // import Results from "./Results";
 
 const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
+    useEffect(() => {
+    console.log('Dashboard updated due to change in questions');
+  }, [unansweredQuestions, answeredQuestions]);
   const [selectedTab, setSelectedTab] = useState(0);
 
   // const selectedUser = users[authedUser];
@@ -19,6 +22,8 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
   };
 
   const renderQuestions = (questions) => {
+      console.log('renderQuestions called with questions:', questions);  // Add logging here
+
     return questions.map((question) => (
       <Question key={question.id} id={question.id} />
     ));
@@ -26,41 +31,7 @@ const Dashboard = ({ unansweredQuestions, answeredQuestions, user }) => {
 
   return (
     <div>
-      {/* <Box
-  sx={{
-    display: 'flex',
-    flexDirection: 'column', // Stack children vertically
-    height: '100%',          // Occupy full height
-  }}
->
-  <Box
-    sx={{
-      borderBottom: 1, 
-      borderColor: "divider",
-      alignItems: 'center',   // Center the icon horizontally
-    }}
-  >
-    <Tabs value={selectedTab} onChange={handleChange}>
-      <Tab label="Unanswered" />
-      <Tab label="Answered" />
-    </Tabs>
-  </Box>
-
-  {/* Adjust styles for the content based on the selected tab */}
-  {/* <Box
-    sx={{
-      flexGrow: 1,          // Take up all remaining vertical space
-      backgroundColor: selectedTab === 0 ? 'background.default' : 'background.paper',
-      padding: 2,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 2,
-    }}
-  >
-    {selectedTab === 0 && renderQuestions(unansweredQuestions)}
-    {selectedTab === 1 && renderQuestions(answeredQuestions)}
-  </Box>
-</Box> */} 
+    
 
        <Box
         style={{}}
@@ -122,14 +93,19 @@ const mapStateToProps = (state) => {
   const user = authedUser ? users[authedUser] : null;
 
   const questionsArray = Object.values(questions);
+  const sortedQuestionsArray = questionsArray.sort((a, b) => {
+    const timestampA = a.timestamp || a.timeStamp;
+    const timestampB = b.timestamp || b.timeStamp;
+    return timestampB - timestampA;
+});
 
   const userAnsweredQuestions = user ? Object.keys(user.answers) : [];
 
   // Filter the questions based on whether their id is in the user's answered questions
-  const unansweredQuestions = questionsArray.filter(
+  const unansweredQuestions = sortedQuestionsArray.filter(
     (question) => !userAnsweredQuestions.includes(question.id)
   );
-  const answeredQuestions = questionsArray.filter((question) =>
+  const answeredQuestions = sortedQuestionsArray.filter((question) =>
     userAnsweredQuestions.includes(question.id)
   );
 
@@ -139,6 +115,9 @@ const mapStateToProps = (state) => {
   const selectedUser = user ? users[authedUser] : null;
   const userName = selectedUser ? selectedUser.name : null;
   const userAvatar = selectedUser ? selectedUser.avatarURL : null;
+  console.log('sortedQuestionsArray:', sortedQuestionsArray);  // Add logging here
+  console.log('unansweredQuestions:', unansweredQuestions);  // Add logging here
+  console.log('answeredQuestions:', answeredQuestions); 
 console.log({authedUser})
   return {
     unansweredQuestions,

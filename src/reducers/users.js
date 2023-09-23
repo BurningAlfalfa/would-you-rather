@@ -1,8 +1,19 @@
-import { RECEIVE_USERS } from "../actions/users";
-import { SET_AUTHED_USER, GET_AUTHED_USER } from "../actions/authedUser";
+import { RECEIVE_USERS, ADD_QUESTION_TO_USER } from "../actions/users";
+import { SET_AUTHED_USER, GET_AUTHED_USER} from "../actions/authedUser";
 import { LOGOUT_USER } from "../actions/authedUser";
 export default function users(state = {}, action) {
   switch (action.type) {
+    case ADD_QUESTION_TO_USER:
+                     console.log({action})
+
+      return {
+        ...state,
+        [state.authedUser]:{
+          ...state[state.authedUser], 
+          questions: state[state.authedUser].questions.concat(action.qid)
+        }   
+      }
+
     case RECEIVE_USERS:
       return {
         ...state,
@@ -27,7 +38,6 @@ export default function users(state = {}, action) {
           authedUser: null,
         };
       case "VOTE":
-               console.log({action})
         
         const { payload: { authedUser, option,questionId  } } = action
         console.log({state, authedUser, option,questionId, })

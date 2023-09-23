@@ -50,8 +50,10 @@ const Question: React.FC<QuestionProps> = ({ question, unanswered, questions, id
 
   const tabColor = unanswered ? color.green : color.blue;
   const authorId = questions[id].author;
+  console.log({authorId})
   const avatarUser = users[authorId];
   const avatarURL = avatarUser.avatarURL;
+  //console.log(questions[],authorId);
 
   return (
     <Card

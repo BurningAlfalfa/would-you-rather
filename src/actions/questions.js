@@ -20,15 +20,41 @@ export function addAnswerToQuestion(authUser, qid, answer) {
     answer,
   };
 }
+export function addQuestion(optionOneText, optionTwoText, author) {
+  return (dispatch) => {
+    const id = new Date().getTime().toString();
+    const timeStamp = Date.now();
+    const optionOne = { votes: [], text: optionOneText };
+    const optionTwo = { votes: [], text: optionTwoText };
+    const newQuestion = {
+      timeStamp,
+      id,
+      author,
+      optionOne,
+      optionTwo,
+    };
 
-export function addQuestion(optionOne, optionTwo, author) {
-  return {
-    type: ADD_QUESTION,
-    optionOne,
-    optionTwo,
-    author,
+    // Save the new question to your backend/database here
+    // Then dispatch the action:
+
+    dispatch({
+      type: ADD_QUESTION,
+      question: newQuestion,
+    });
+
+    return newQuestion;
   };
 }
+
+// export function addQuestion(optionOne, optionTwo, author) {
+//   return {
+//     type: ADD_QUESTION,
+//     question: newQuestion,
+//     optionOne,
+//     optionTwo,
+//     author,
+//   };
+// }
 
 // export function handleSaveQuestion(optionOneText, optionTwoText, author) {
 //   return (dispatch) => {

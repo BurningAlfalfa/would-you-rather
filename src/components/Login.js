@@ -1,127 +1,90 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import { setAuthedUser } from "../actions/authedUser";
-//import { tyler, john, sara } from "..assests/images";
+import React, { useState, useEffect, Fragment } from "react";
+import { connect, useSelector, useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router";
+import { setLastVisitedUrl } from "../actions/authedUser";
 
-class Login extends Component {
-  state = {
-    value: "",
-    loading: false,
-      redirectTo404: false,
-  };
-  handleLoading = () => {
-    this.setState({ loading: true });
-  };
-  onChange = (event) => {
-    const id = event.target.value;
-    this.setState({ value: id });
-  };
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { /*onLoading,*/ setAuthedUser } = this.props;
-    const authedUser = this.state.value;
-    setAuthedUser(authedUser);
+function Login({ users, setAuthedUser }) {
+  const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [redirectTo404, setRedirectTo404] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const lastVisitedUrl = useSelector((state) => state.auth.lastVisitedUrl);
+  Login.defaultProps = {
+    users: [],
+};
+  useEffect(() => {
+    const from404 = location?.state?.from404 || false;
 
-    this.handleLogin()
-  };
-   handleLogin = () => {
-    const from404 = this.props.location?.state?.from404 || false;
-    
     if (from404) {
-      this.setState({ redirectTo404: true });
+      // Dispatch an action to update lastVisitedUrl in your Redux state
+      dispatch({ type: "SET_LAST_VISITED_URL", url: "/404" });
+    }
+  }, [location, dispatch]);
+  useEffect(() => {
+    if (redirectTo404) {
+      navigate("/404");
+    }
+  }, [redirectTo404, navigate]);
+
+  const handleLoading = () => setLoading(true);
+
+  const onChange = (event) => setValue(event.target.value);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setAuthedUser(value);
+    handleLogin();
+  };
+
+  const handleLogin = () => {
+
+    if (lastVisitedUrl) {
+      navigate(lastVisitedUrl);
+      dispatch(setLastVisitedUrl(null));
     } else {
-      // Handle redirection to home or other default page here if needed
+       navigate("/dashboard");
     }
   };
-  generateDropdownData = () => {
-    const { users } = this.props;
-    console.log("hi");
-    return (
-      users &&
-      users.map((user) => ({
-        key: user.id,
-        text: user.name,
-        value: user.id,
-        image: { avatar: true, src: user.avatarURL },
-      }))
-    );
-  };
-  
+  console.log(users);  // in your component
 
-  render() {
-    if (this.state.redirectTo404) {
-      return <navigate to="/404" />; // redirecting to 404 page
-    }
-    //const { value } = this.props;
-    //  const disabled = value === "" ? true : false;
-    //const { users } = this.props;
-    return (
-      <div className="log-in">
-        <Fragment>
-          <div
-            //image={<BrandImage />}
-            form={<ConnectedLogin onLoading={this.handleLoading} />}
-            //loading={this.state.loading ? true : false}
-          />
-          <div>
-            <header />
-            {/*  <div
-              form={<ConnectedLogin onLoading={this.handleLoading} />}
-              loading={this.state.loading}
-            /> */}
-          </div>
-        </Fragment>
-        <form className="ui-form" onSubmit={this.handleSubmit}>
-          <header className="header">Sign In</header>
+  return (
+    <div className="log-in">
+      <Fragment>
+        <div />
+        <div>
+          <header />
+        </div>
+      </Fragment>
+      <form className="ui-form" onSubmit={handleSubmit}>
+        <header className="header">Sign In</header>
+        <select className="dropdown" value={value} onChange={onChange} required>
+          <option value="" disabled>
+            Select User
+          </option>
+          {users.filter(user => user).map((user) => (
+  <option key={user.id} value={user.id}>
+    {user.name}
+  </option>
+))}
 
-          <select
-            className="dropdown"
-            fluid="true"
-            selection="true"
-            scrolling="true"
-            value={this.state.value}
-            onChange={this.onChange}
-            required
-          >
-            <option key={""} value={""} disabled>
-              Select User
-            </option>
-
-            {this.props.users.length > 0 &&
-              this.props.users.map((user) => {
-                if (user) {
-                  return (
-                    <option key={user.id} value={user.id}>
-                      {user.name}
-                    </option>
-                  );
-                }
-              })}
-          </select>
-          <button
-            className="submit-button"
-            positive="true"
-            //disabled={disabled}
-            fluid="true"
-          >
-            Login
-          </button>
-        </form>
-      </div>
-    );
-  }
+        </select>
+        <button className="submit-button">Login</button>
+      </form>
+    </div>
+  );
 }
 
-function mapStateToProps({ users }) {
-  return {
-    users: Object.values(users),
-  };
+const mapStateToProps = (state) => {
+    console.log(state.users);  // in mapStateToProps
+return{
+  users: Object.values(state.users),
 }
+};
+
 const mapDispatchToProps = (dispatch) => ({
   setAuthedUser: (id) => dispatch({ type: "SET_AUTHED_USER", id }),
 });
 
-const ConnectedLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
-//const ConnectedLogin = connect(mapStateToProps, { setAuthedUser })(Login);
-
-export default ConnectedLogin;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,5 +1,5 @@
 import { getInitialData } from "../utils/api";
-import { receiveUsers } from "./users";
+import { addQuestionToUser, receiveUsers } from "./users";
 import { receiveQuestions } from "./questions";
 import { _saveQuestion } from "../utils/_DATA";
 import { saveQuestion } from "../utils/api";
@@ -13,6 +13,8 @@ export function handleInitalData() {
      .then(({ users, questions }) => {
       dispatch(receiveUsers(users));
       dispatch(receiveQuestions(questions));
+      dispatch(addQuestion(questions));
+      dispatch(addQuestionToUser(users));
       //dispatch(setAuthedUser(authedUser));
     })
     .catch(error => {
