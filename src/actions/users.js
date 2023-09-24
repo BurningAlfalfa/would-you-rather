@@ -15,15 +15,30 @@ export function receiveUsers(users) {
   };
 }
 
-function vote(authUser, qid, answer) {
-  return {
-    type: ADD_ANSWER_TO_USER,
-    authUser,
-    qid,
-    answer,
-  };
-}
-
+// function vote(authUser, qid, answer) {
+//   return {
+//     type: ADD_ANSWER_TO_USER,
+//     authUser,
+//     qid,
+//     answer,
+//   };
+// }
+// export const vote = (authedUser, questionId, option) => {
+//   return dispatch => {
+//     return new Promise((resolve, reject) => {
+//       // Assuming you have some async operation here
+//       someAsyncOperation()
+//         .then(response => {
+//           dispatch({ type: "VOTE", payload: { authedUser, questionId, option } });
+//           resolve();
+//         })
+//         .catch(error => {
+//           // Handle error
+//           reject(error);
+//         });
+//     });
+//   };
+// };
 // export function handleSaveQuestionAnswer(authUser, qid, answer) {
 //   return (dispatch) => {
 //     dispatch(addAnswerToUser(authUser, qid, answer));

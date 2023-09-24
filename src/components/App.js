@@ -15,11 +15,11 @@ function Fallback() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-        navigate('/');
+  // useEffect(() => {
+  //       navigate('/');
         
-    dispatch({ type: 'LOGOUT_USER' });  // This assumes 'LOGOUT_USER' is your logout action type
-  }, [ navigate, dispatch]);
+  //   dispatch({ type: 'LOGOUT_USER' });  // This assumes 'LOGOUT_USER' is your logout action type
+  // }, [ navigate, dispatch]);
 
   return null;  // Render nothing while the logout and redirect are being handled
 }

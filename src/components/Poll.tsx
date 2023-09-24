@@ -45,25 +45,29 @@ const Poll: FC<PollProps> = ({ handleSubmit }) => {
   const user = useSelector((state: State) => state.users[question?.author]);
 
   if (!question) {
-    navigate('/'); 
+    navigate('/');
     dispatch(logoutUser());
     navigate('/404') // Log the user out
-  return null;
+    return null;
   }
 
-  const onClickSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onClickSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
       option: { value: string };
     };
-    handleSubmit(authedUser, question_id, target.option.value);
-    navigate("/");
+    try {
+      await handleSubmit(authedUser, question_id, target.option.value);
+      navigate("/question/" + question_id);
+    } catch (error) {
+      console.error("failed to submit vote", error);
+    }
   };
 
   const hasUserVoted =
     question.optionOne.votes.includes(authedUser) ||
     question.optionTwo.votes.includes(authedUser);
-    const votesTotal =
+  const votesTotal =
     question.optionOne.votes.length + question.optionTwo.votes.length;
   const optionOneVotes = question.optionOne.votes.length;
   const optionTwoVotes = question.optionTwo.votes.length;
@@ -74,7 +78,7 @@ const Poll: FC<PollProps> = ({ handleSubmit }) => {
     console.log(question);
   }
   return (
-    
+
     <div style={{ justifyContent: "center", display: "flex" }}>
       <Card
         elevation={15}
@@ -137,15 +141,21 @@ const Poll: FC<PollProps> = ({ handleSubmit }) => {
                     >
                       {percentageOne}%
                     </div>
-                    
+
                   </div>
                   <div>
-                    {optionOneVotes + " out of " +votesTotal}
-                    </div>
-                  
+                    {optionOneVotes + " out of " + votesTotal}
+                    {question.optionOne.votes.includes(authedUser) && (
+                      <p style={{ color: "orange", fontWeight: "bold" }}>YOUR VOTE</p>
+                    )}
+
+
+
+                  </div>
+
                 </div>
                 <div
-               
+
                 >
 
                   <p style={{ fontWeight: "bold" }}>
@@ -173,10 +183,18 @@ const Poll: FC<PollProps> = ({ handleSubmit }) => {
                     {percentageTwo}%
                   </div>
                   <p>
-                 
-                    </p>
+
+                  </p>
                 </div>
-                   {optionTwoVotes + " out of " +votesTotal}
+                {optionTwoVotes + " out of " + votesTotal}
+                {question.optionTwo.votes.includes(authedUser) && (
+                  <p style={{
+                    color: "orange",
+                    fontWeight: "bold"
+                  }}>YOUR VOTE</p>
+                )}
+
+
               </Fragment>
             ) : (
               <form onSubmit={onClickSubmit}>
@@ -205,7 +223,7 @@ const Poll: FC<PollProps> = ({ handleSubmit }) => {
 const mapDispatchToProps = (dispatch: (action: any) => void) => {
   return {
     handleSubmit: (authedUser: string, questionId: string, option: string) => {
-      dispatch({ type: "VOTE", payload: { authedUser, questionId, option } });
+      return dispatch({ type: "VOTE", payload: { authedUser, questionId, option } });
     },
   };
 };
