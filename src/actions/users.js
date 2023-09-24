@@ -5,7 +5,7 @@ export const RECEIVE_USERS = "RECEIVE_USERS";
 export const ADD_ANSWER_TO_USER = "ADD_ANSWER_TO_USER";
 export const ADD_QUESTION_TO_USER = "ADD_QUESTION_TO_USER";
 // export const ADD_QUESTION_TO_USER = "ADD_QUESTION_TO_USER";
-// export const vote = "VOTE";
+export const VOTE = "VOTE";
 
 
 export function receiveUsers(users) {
@@ -15,14 +15,15 @@ export function receiveUsers(users) {
   };
 }
 
-// function vote(authUser, qid, answer) {
-//   return {
-//     type: ADD_ANSWER_TO_USER,
-//     authUser,
-//     qid,
-//     answer,
-//   };
-// }
+// export const vote = (authedUser, questionId, option) => {
+  export   const vote = (authedUser, questionId, option) => {
+    return dispatch => {
+      dispatch({
+        type: VOTE,
+        payload: { authedUser, questionId, option },
+      });
+    };
+  };
 // export const vote = (authedUser, questionId, option) => {
 //   return dispatch => {
 //     return new Promise((resolve, reject) => {

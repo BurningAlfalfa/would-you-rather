@@ -13,8 +13,8 @@ export function handleInitalData() {
      .then(({ users, questions }) => {
       dispatch(receiveUsers(users));
       dispatch(receiveQuestions(questions));
-      dispatch(addQuestion(questions));
-      dispatch(addQuestionToUser(users));
+      // dispatch(addQuestion(questions));
+      // dispatch(addQuestionToUser(users));
       //dispatch(setAuthedUser(authedUser));
     })
     .catch(error => {
@@ -24,12 +24,3 @@ export function handleInitalData() {
 }
 
 
-// export function handleNewData(optionOneText, optionTwoText, author) {
-//   return (dispatch) => {
-//     return saveQuestion({ optionOneText, optionTwoText, author }).then(
-//       (question) => {
-//         dispatch(addQuestion(question));
-//       }
-//     );
-//   };
-// }
